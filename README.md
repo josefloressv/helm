@@ -11,6 +11,8 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Installing Helm](#installing-helm)
   - [Quick start with Repositories](#quick-start-with-repositories)
   - [Quick start Install sample chart](#quick-start-install-sample-chart)
+  - [Artifact Hub](#artifact-hub)
+  - [Lifecycle management with Helm](#lifecycle-management-with-helm)
 
 ## Introduction
 
@@ -73,5 +75,37 @@ helm pull bitnami/wordpress --untar
 
 # Install from local Helm chart
 helm install wp1 ./wordpress
+
+```
+
+## Artifact Hub
+
+```bash
+# Search
+helm search hub wordpress
+helm search repo wordpress
+```
+
+## Lifecycle management with Helm
+
+```bash
+# Search by app version
+helm search repo bitnami/nginx --versions | grep 1.25
+
+# Check helm chart
+helm search repo bitnami/nginx --version 15.0.0
+helm show chart bitnami/nginx --version 15.0.0
+
+# Install a previous version of Nginx 1.25.0
+helm install myenginx bitnami/nginx --version 15.0.0
+
+# Upgrade the existing release
+helm upgrade myenginx bitnami/nginx
+
+# List the revisions of a release
+helm history myenginx
+
+# Rollback to an specific revision
+helm rollback myenginx 1
 
 ```
