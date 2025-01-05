@@ -21,7 +21,7 @@ Use Helm to:
 * Intelligently manage your Kubernetes manifest files
 * Manage releases of Helm packages
 
-The final release of Helm 2 was version 2.17.0, which was made available on November 13, 2020. This release marked the end of Helm 2's support, with users encouraged to migrate to Helm 3 for continued updates and improvements. Helm 3 was released in November 2019, introducing significant changes, including the removal of the Tiller component, enhancing security and simplifying the Helm architecture.
+*Helm was first released in February 2016 (v1.0). Helm v2.0 followed in November 2016, with the final release of Helm 2 (v2.17.0) on November 13, 2020. This marked the end of Helm 2's support, encouraging users to migrate to Helm 3. Released in November 2019, Helm 3 introduced significant changes, including the removal of the Tiller component, enhancing security and simplifying the Helm architecture.*
 
 ## Installing Helm
 https://helm.sh/docs/intro/install/
