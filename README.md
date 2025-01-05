@@ -67,4 +67,11 @@ helm status mysql-1736106819
 
 # Uninstall a release
 helm uninstall mysql-1736106819
+
+# Download a Helm chart from a repository
+helm pull bitnami/wordpress --untar
+
+# Install from local Helm chart
+helm install wp1 ./wordpress
+
 ```
