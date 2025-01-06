@@ -116,4 +116,7 @@ helm rollback myenginx 1
 ```bash
 helm create hello-world-chart
 helm install myapp1 ./hello-world-chart
+helm install myapp2 ./hello-world-chart
+helm install myapp3 ./hello-world-chart
+helm upgrade myapp1 ./hello-world-chart
 ```
