@@ -14,6 +14,8 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Artifact Hub](#artifact-hub)
   - [Lifecycle management with Helm](#lifecycle-management-with-helm)
   - [Creating helm chart](#creating-helm-chart)
+  - [Objects](#objects)
+  - [Verifying Helm charts](#verifying-helm-charts)
 
 ## Introduction
 
@@ -119,4 +121,51 @@ helm install myapp1 ./hello-world-chart
 helm install myapp2 ./hello-world-chart
 helm install myapp3 ./hello-world-chart
 helm upgrade myapp1 ./hello-world-chart
+helm upgrade myapp1 ./hello-world-chart --set replicaCount=3
+helm upgrade myapp3 ./hello-world-chart --debug --force
+```
+
+
+## Objects
+Release
+* Release.Name
+* Release.Namespace
+* Release.Revision
+* Release.IsUpgrade
+* Release.IsInstall
+* Release.Service
+
+Chart
+* Chart.Name
+* Chart.ApiVersion
+* Chart.Version
+* Chart.Type
+* Chart.Home
+
+Capabilities
+* Capabilities.KubeVersion
+* Capabilities.ApiVersions
+* Capabilities.HelmVersion
+* Capabilities.GitCommit
+* Capabilities.GitTreeState
+* Capabilities.GoVersion
+
+User Defined
+* Values.replicaCount
+* Values.image
+
+## Verifying Helm charts
+
+```bash
+# Lint: helps to verify that the chart and the yaml format is correct
+helm lint ./hello-world-chart
+
+# Template: helps to verify that the templating part is working as expected, render the template before send to Kubernetes
+helm template ./hello-world-chart
+helm template myapp4 ./hello-world-chart
+helm template myapp4 ./hello-world-chart --set replicaCount=3
+
+# Dry Run: helps to verify that the chart works well with Kubernetes itself.
+helm install myapp4 ./hello-world-chart --set replicaCount=3 --dry-run
+
 ```

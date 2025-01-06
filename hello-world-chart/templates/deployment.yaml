@@ -3,22 +3,29 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx
+    app: {{ .Release.Name }}-nginx
   name: {{ .Release.Name }}-nginx
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: nginx
+      app: {{ .Release.Name }}-nginx
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx
+        app: {{ .Release.Name }}-nginx
     spec:
       containers:
-      - image: nginx
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         name: nginx
-        resources: {}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
 status: {}
