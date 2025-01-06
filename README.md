@@ -13,6 +13,7 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Quick start Install sample chart](#quick-start-install-sample-chart)
   - [Artifact Hub](#artifact-hub)
   - [Lifecycle management with Helm](#lifecycle-management-with-helm)
+  - [Creating helm chart](#creating-helm-chart)
 
 ## Introduction
 
@@ -108,4 +109,11 @@ helm history myenginx
 # Rollback to an specific revision
 helm rollback myenginx 1
 
+```
+
+## Creating helm chart
+
+```bash
+helm create hello-world-chart
+helm install myapp1 ./hello-world-chart
 ```
