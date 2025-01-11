@@ -1,0 +1,5 @@
+# Repleace the values of the following keys in the original ./hello-world-chart/values.yaml file
+replicaCount: 4
+image:
+  repository: nginx
+  tag: 1.9.6

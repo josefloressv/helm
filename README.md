@@ -15,8 +15,10 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Lifecycle management with Helm](#lifecycle-management-with-helm)
   - [Creating helm chart](#creating-helm-chart)
     - [Structure of a Chart](#structure-of-a-chart)
-  - [Objects](#objects)
-  - [Verifying Helm charts](#verifying-helm-charts)
+    - [Objects](#objects)
+    - [Verifying Helm charts](#verifying-helm-charts)
+    - [Modifying Helm Charts](#modifying-helm-charts)
+      - [Show values](#show-values)
 
 ## Introduction
 
@@ -144,7 +146,7 @@ helm upgrade myapp3 ./hello-world-chart --debug --force
 ```
 
 
-## Objects
+### Objects
 Release
 * Release.Name
 * Release.Namespace
@@ -172,7 +174,7 @@ User Defined
 * Values.replicaCount
 * Values.image
 
-## Verifying Helm charts
+### Verifying Helm charts
 
 ```bash
 # Lint: helps to verify that the chart and the yaml format is correct
@@ -186,4 +188,47 @@ helm template myapp4 ./hello-world-chart --set replicaCount=3
 # Dry Run: helps to verify that the chart works well with Kubernetes itself.
 helm install myapp4 ./hello-world-chart --set replicaCount=3 --dry-run
 
+```
+
+### Modifying Helm Charts
+
+1. Inline using set: you can use the set option with the install command to override the contents of the values.yaml file.
+Exampple
+```bash
+helm template myapp4 ./hello-world-chart --set replicaCount=3
+```
+2. Passing a file: You can override the chart’s values.yaml by passing a file that contains the values you want to override. This has the advantage of being able to commit the override file to source control to track changes.
+Example
+
+override-values.yaml
+```yaml
+replicaCount: 4
+image:
+  repository: nginx
+  tag: 1.9.6
+```
+
+```bash
+helm install myapptest ./hello-world-chart --values override-values.yaml
+```
+3. Customize the Chart: You can “fetch” the chart and then directly overwrite the values.yaml with your custom values. This is a destructive change and creates a new version of the chart. 
+
+Example
+```bash
+# Fetch the Chart
+helm fetch bitnami/wordpress
+
+# Uncompress the Chart
+tar -xvz wordpress-24.1.5.tgz
+
+# Modify the value wordpress/values.yaml
+```
+
+#### Show values
+
+Tip: The command helm show values can be used to show all of the information contained in the values.yaml file
+example:
+```bash
+helm show values ./hello-world-chart
+helm show values langchain/langsmith
 ```
