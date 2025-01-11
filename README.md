@@ -14,6 +14,7 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Artifact Hub](#artifact-hub)
   - [Lifecycle management with Helm](#lifecycle-management-with-helm)
   - [Creating helm chart](#creating-helm-chart)
+    - [Structure of a Chart](#structure-of-a-chart)
   - [Objects](#objects)
   - [Verifying Helm charts](#verifying-helm-charts)
 
@@ -43,6 +44,10 @@ helm repo list
 
 # Add new repo
 helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# for error related to dial tcp [2606:50c0:8003::153]:443: connect: no route to host
+# this will forces Helm to use IPv4 instead of IPv6
+export HELM_HOST=0.0.0.0
 
 # Remove repo
 helm repo remove bitnami
@@ -114,6 +119,19 @@ helm rollback myenginx 1
 ```
 
 ## Creating helm chart
+
+### Structure of a Chart
+
+MyChart/
+  Chart.yaml --> Contain information about the chart, dependencies, version, etc.
+  LICENSE --> Contain license informatino, if any.
+  README.md --> Markdown-formatted chart description, options, etc.
+  values.yaml --> Contain predefined (default) values which will be passed to the templates. Values in this can be overriden by values passed on the command line during installation.
+  values.schema.json --> Provides an optional schema for the values.yaml file.
+  charts/ --> Dependencies are downloaded into this folder
+  crds/ --> Contains Custom Resource Definition (CRDs)
+  templates/ --> This directory contains templates which are passed through the template engine. This templates incorporate the content of the values.yaml
+  templates/NOTES.txt --> This plain text file is printed out post-installation and when viewing the release status
 
 ```bash
 helm create hello-world-chart

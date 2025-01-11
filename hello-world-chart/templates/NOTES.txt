@@ -1,0 +1,5 @@
+1. Get the application URL by running these commands:
+
+    export SERVICE_NAME=$(kubectl get svc --namespace {{ .Release.Namespace }} -l "app={{ .Release.Namespace }}-nginx" -o jsonpath="{.items[0].metadata.name}")
+    kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SERVICE_NAME 8080:80
+    echo "Visit http://127.0.0.1:8080 to use your application"
