@@ -8,4 +8,6 @@ helm uninstall demo
 # Replace value from command line
 helm install demo ./ --set Service.type=NodePort
 
+# Run tests
+helm test demo
 ```

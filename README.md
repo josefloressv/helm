@@ -20,6 +20,8 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
     - [Modifying Helm Charts](#modifying-helm-charts)
       - [Show values](#show-values)
   - [Hooks](#hooks)
+  - [Libraries](#libraries)
+  - [Tests](#tests)
 
 ## Introduction
 
@@ -248,4 +250,46 @@ Example
 ```bash
 # will delay 10 seconds after install
 helm install app ./hello-world-chart
+```
+
+## Libraries
+A library is a shared template that can be used to prevent repetitive code.
+
+
+## Tests
+These tests also help the chart consumer understand what your chart is supposed to do.
+
+A test in a helm chart lives under the `templates/` directory and is a job definition that specifies a container with a given command to run. The container should exit successfully (exit 0) for a test to be considered a success. The job definition must contain the helm test hook annotation: `helm.sh/hook: test`.
+
+Example https://helm.sh/docs/topics/chart_tests/
+```bash
+helm create demo
+
+```
+demo/templates/tests/test-connection.yaml
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "demo.fullname" . }}-test-connection"
+  labels:
+    {{- include "demo.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "demo.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
+```
+
+Run the tests
+```bash
+# Install the Chart
+helm install demo demo
+
+# Run the test
+helm test demo
 ```
