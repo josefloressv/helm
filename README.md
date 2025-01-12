@@ -19,6 +19,7 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
     - [Verifying Helm charts](#verifying-helm-charts)
     - [Modifying Helm Charts](#modifying-helm-charts)
       - [Show values](#show-values)
+  - [Hooks](#hooks)
 
 ## Introduction
 
@@ -231,4 +232,20 @@ example:
 ```bash
 helm show values ./hello-world-chart
 helm show values langchain/langsmith
+```
+
+## Hooks
+https://helm.sh/docs/topics/charts_hooks/#helm
+
+Helm provides a hook mechanism to allow chart developers to intervene at certain points in a release's life cycle. For example, you can use hooks to:
+* Load a ConfigMap or Secret during install before any other charts are loaded.
+* Execute a Job to back up a database before installing a new chart, and then execute a second job after the upgrade in order to restore data.
+* Run a Job before deleting a release to gracefully take a service out of rotation before removing it.
+
+Example
+[./hello-world-chart/templates/post-install-job.yaml](./hello-world-chart/templates/post-install-job.yaml)
+
+```bash
+# will delay 10 seconds after install
+helm install app ./hello-world-chart
 ```
