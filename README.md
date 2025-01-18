@@ -22,6 +22,8 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Hooks](#hooks)
   - [Libraries](#libraries)
   - [Tests](#tests)
+  - [Functions](#functions)
+    - [String](#string)
 
 ## Introduction
 
@@ -293,3 +295,58 @@ helm install demo demo
 # Run the test
 helm test demo
 ```
+
+
+## Functions
+https://helm.sh/docs/chart_template_guide/function_list/
+Helm includes many template functions you can take advantage of in templates.
+
+They are listed here and broken down by the following categories:
+* Cryptographic and Security
+* Date
+* Dictionaries
+* Encoding
+* File Path
+* Kubernetes and Chart
+* Logic and Flow Control
+* Lists
+* Math
+* Float Math
+* Network
+* Reflection
+* Regular Expressions
+* Semantic Versions
+* String
+* Type Conversion
+* URL
+* UUID
+
+In the following example, we will use some functions like 
+default, lower, title, b64enc, and quote
+
+Example
+[functions-chart/](functions-chart/)
+
+### String
+* upper
+* lower
+* quote
+* replace "x" "y"
+* shuffle
+* camelcase
+* kebabcase
+* snakecase
+* title
+* contains
+* hasPrefix
+* ident
+* nospace
+* print
+* printf
+* randAlpha
+* randAlphaNum
+* randNumeric
+* substr
+* trim
+* trimAll
+* trunc
