@@ -1,0 +1,10 @@
+apiVersion: v2
+name: conditionals-chart
+description: Conditionals in Helm templates
+type: application
+version: 0.1.4
+appVersion: "1.0.0"
+
+maintainers:
+  - name: The Helm Authors
+    email: john@example.com

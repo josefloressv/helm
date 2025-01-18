@@ -24,6 +24,7 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Tests](#tests)
   - [Functions](#functions)
     - [String](#string)
+  - [Flow Controls](#flow-controls)
 
 ## Introduction
 
@@ -350,3 +351,15 @@ Example
 * trim
 * trimAll
 * trunc
+
+## Flow Controls
+https://helm.sh/docs/chart_template_guide/control_structures/
+
+Control structures (called "actions" in template parlance) provide you, the template author, with the ability to control the flow of a template's generation. Helm's template language provides the following control structures:
+* `if/else` for creating conditional blocks
+* `with` to specify a scope
+* `range`, which provides a "for each"-style loop
+
+
+Example
+[conditionals-chart/](conditionals-chart/)
