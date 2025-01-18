@@ -1,0 +1,7 @@
+app:
+  ui:
+    background_color: blue
+    font_color: white
+  backend:
+    background_color: black
+    font_color: white

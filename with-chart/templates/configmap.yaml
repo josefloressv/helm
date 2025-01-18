@@ -1,0 +1,17 @@
+#ConfigMap manifest
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+  labels:
+    release: "{{ .Release.Name }}"
+data:
+    appVersion: {{ $.Chart.AppVersion }}
+    {{- with .Values.app.ui }}
+    ui.bacground-color: {{ .background_color }}
+    ui.font-color: {{ .font_color }}
+    {{- end }}
+    {{- with .Values.app.backend }}
+    backend.background-color: {{ .background_color }}
+    backend.font-color: {{ .font_color }}
+    {{- end }}

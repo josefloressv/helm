@@ -361,5 +361,8 @@ Control structures (called "actions" in template parlance) provide you, the temp
 * `range`, which provides a "for each"-style loop
 
 
-Example
+Example `if/else`
 [conditionals-chart/](conditionals-chart/)
+
+Example `with`
+[with-chart/](with-chart/)
