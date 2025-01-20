@@ -1,0 +1,14 @@
+apiVersion: v1
+metadata:
+  name: {{ .Values.configMap.name }}
+  namespace: default
+kind: ConfigMap
+data:
+  FONT_COLOR: yellow
+  {{- if eq .Values.environment "production" }}
+  BG_COLOR: pink
+  {{- else if eq .Values.environment "development" }}
+  BG_COLOR: darkblue
+  {{- else }}
+  BG_COLOR: green
+  {{- end }}
