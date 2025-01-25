@@ -19,13 +19,13 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
     - [Verifying Helm charts](#verifying-helm-charts)
     - [Modifying Helm Charts](#modifying-helm-charts)
       - [Show values](#show-values)
-  - [Hooks](#hooks)
   - [Libraries](#libraries)
   - [Tests](#tests)
   - [Functions](#functions)
     - [String](#string)
   - [Flow Controls](#flow-controls)
   - [Template helpers](#template-helpers)
+  - [Hooks](#hooks)
   - [Publish Helm Chart to GitHub](#publish-helm-chart-to-github)
     - [1. Package Your Helm Chart](#1-package-your-helm-chart)
     - [2. Generate the index.yaml](#2-generate-the-indexyaml)
@@ -246,22 +246,6 @@ helm show values ./hello-world-chart
 helm show values langchain/langsmith
 ```
 
-## Hooks
-https://helm.sh/docs/topics/charts_hooks/#helm
-
-Helm provides a hook mechanism to allow chart developers to intervene at certain points in a release's life cycle. For example, you can use hooks to:
-* Load a ConfigMap or Secret during install before any other charts are loaded.
-* Execute a Job to back up a database before installing a new chart, and then execute a second job after the upgrade in order to restore data.
-* Run a Job before deleting a release to gracefully take a service out of rotation before removing it.
-
-Example
-[./hello-world-chart/templates/post-install-job.yaml](./hello-world-chart/templates/post-install-job.yaml)
-
-```bash
-# will delay 10 seconds after install
-helm install app ./hello-world-chart
-```
-
 ## Libraries
 A library is a shared template that can be used to prevent repetitive code.
 
@@ -394,6 +378,43 @@ Then used in each manifest with `include`
 metadata:
   labels:
     {{- include "webapp-color.labels" . }}
+```
+
+## Hooks
+https://helm.sh/docs/topics/charts_hooks/#helm
+
+Helm provides a hook mechanism to allow chart developers to intervene at certain points in a release's life cycle. For example, you can use hooks to:
+* Load a ConfigMap or Secret during install before any other charts are loaded.
+* Execute a Job to back up a database before installing a new chart, and then execute a second job after the upgrade in order to restore data.
+* Run a Job before deleting a release to gracefully take a service out of rotation before removing it.
+
+Note: hook resources are not deleted with helm, but deletions are controled with an anotation, [more info](https://helm.sh/docs/topics/charts_hooks/#hook-deletion-policies).
+```bash
+annotations:
+  "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+```
+values:
+* before-hook-creation	Delete the previous resource before a new hook is launched (default)
+* hook-succeeded	Delete the resource after the hook is successfully executed
+* hook-failed	Delete the resource if the hook failed during execution
+
+Example
+[./chart-hooks-example](./chart-hooks-examplel)
+
+```bash
+# will delay 10 seconds after install
+helm install app ./hello-world-chart
+
+## After installed, we can see the install-hook pod with status completed
+k get pod
+k logs install-hook-xxxx
+
+# The upgrade hook doesn't include a delay, but using hooks add a bit of delay
+helm upgrade app ./hello-world-chart
+
+## After upgrade, we can see the upgrade-hook pod with status completed
+k get pod
+k logs upgrade-hook-xxxx
 ```
 
 ## Publish Helm Chart to GitHub

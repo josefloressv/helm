@@ -1,0 +1,28 @@
+environment: development
+name: webapp-color
+
+configMap:
+  name: webapp-color-configmap
+
+deployment:
+  replicaCount: 1
+  image:
+    repository: josefloressv/webapp-color
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  nodePort: 30080
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  labels: 
+    tier: frontend
+    type: web
+    mode: proxy
