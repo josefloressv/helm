@@ -25,6 +25,7 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Functions](#functions)
     - [String](#string)
   - [Flow Controls](#flow-controls)
+  - [Template helpers](#template-helpers)
   - [Publish Helm Chart to GitHub](#publish-helm-chart-to-github)
     - [1. Package Your Helm Chart](#1-package-your-helm-chart)
     - [2. Generate the index.yaml](#2-generate-the-indexyaml)
@@ -372,6 +373,28 @@ Example `if/else`
 
 Example `with`
 [with-chart/](with-chart/)
+
+## Template helpers
+> A named template (sometimes called a partial or a subtemplate) is simply a template defined inside of a file, and given a name.
+Official documentation: https://helm.sh/docs/chart_template_guide/named_templates/
+
+In my example just defined common lables>
+[webapp-color/teamplates/_helpers.tpl](webapp-color/teamplates/_helpers.tpl)
+```yaml
+{{/* Generate basic labels */}}
+{{- define "webapp-color.labels" }}
+    app: {{ .Values.name }}
+    environment: {{ .Values.environment }}
+    date: {{ now | htmlDate }}
+{{- end }}
+```
+
+Then used in each manifest with `include`
+```yaml
+metadata:
+  labels:
+    {{- include "webapp-color.labels" . }}
+```
 
 ## Publish Helm Chart to GitHub
 ### 1. Package Your Helm Chart
