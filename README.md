@@ -25,6 +25,12 @@ Helm is a tool for managing Charts. Charts are packages of pre-configured Kubern
   - [Functions](#functions)
     - [String](#string)
   - [Flow Controls](#flow-controls)
+  - [Publish Helm Chart to GitHub](#publish-helm-chart-to-github)
+    - [1. Package Your Helm Chart](#1-package-your-helm-chart)
+    - [2. Generate the index.yaml](#2-generate-the-indexyaml)
+    - [3. Push to the repository](#3-push-to-the-repository)
+    - [4. Configure GitHub Pages](#4-configure-github-pages)
+    - [5. Run the app from the repository](#5-run-the-app-from-the-repository)
 
 ## Introduction
 
@@ -366,3 +372,45 @@ Example `if/else`
 
 Example `with`
 [with-chart/](with-chart/)
+
+## Publish Helm Chart to GitHub
+### 1. Package Your Helm Chart
+```bash
+helm package webapp-color/
+```
+*This creates a .tgz file (e.g., webapp-color-0.1.0.tgz) in the current directory.*
+
+### 2. Generate the index.yaml
+Use the helm repo index command to generate the index.yaml file:
+```bash
+helm repo index . --url https://<your-github-username>.github.io/<repository-name>
+
+# in my case
+helm repo index . --url https://josefloressv.github.io/helm
+```
+Make sure you have configured GitHub pages https://pages.github.com/
+
+### 3. Push to the repository
+Make sure the .tgz file and index.yaml file are in the root of your repository, then commit and push your changes.
+
+### 4. Configure GitHub Pages
+1. Go to your repository on GitHub.
+2. Navigate to Settings > Pages.
+3. Under "Build and deployment > Source" select the branch you want to use (e.g., main) and the root directory.
+4. Save the settings.
+
+Now you have published the Helmchart to GitHub Pages
+
+### 5. Run the app from the repository
+
+```bash
+# Add your GitHub Pages URL as a Helm repository:
+helm repo add my-charts https://josefloressv.github.io/helm
+helm repo update
+
+# List the Charts from your repository
+helm search repo my-charts
+
+# Install teh Chart
+helm install myapp my-charts/webapp-color
+```
