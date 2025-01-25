@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: {{ .Values.service.targetPort }}
     {{- if eq .Values.service.type "NodePort" }}
-      nodePort: {{ .Values.service.nodePort }}
-    {{- end}}
+    nodePort: {{ .Values.service.nodePort }}
+    {{- end }}
   selector:
     app: {{ .Values.name }}
